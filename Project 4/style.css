@@ -1,0 +1,35 @@
+html body {
+    margin: 0;
+    padding: 0;
+}
+#wholepage {
+    background: url(/img/Aincrad.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+    font-family: 'Jost', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+#welcome {
+  color: white;
+}
+#welcome .inputtext {
+    width: 495px;
+    height: 80px;
+    color: white;
+    font-family: 'Jost', sans-serif;
+    background: transparent;
+    font-size: 50px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    text-align: center;
+    border-bottom: 2px solid white;
+    outline: none;
+}
+::placeholder{
+    color: white;
+    opacity: 1;
+}
