@@ -3,7 +3,7 @@ html body {
     padding: 0;
 }
 #wholepage {
-    background: url(/img/Aincrad.jpg);
+    background: url(/img/1.jpg);
     background-attachment: fixed;
     background-size: cover;
     font-family: 'Jost', sans-serif;
@@ -12,10 +12,21 @@ html body {
     justify-content: center;
     height: 100vh;
 }
-#welcome {
+#centertext {
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
-#welcome .inputtext {
+#clock {
+    z-index: 1;
+    height: 100px;
+    font-size: 100px;
+    visibility: hidden;
+    font-family: 'Jost', sans-serif;
+}
+#centertext #inputtext {
     width: 495px;
     height: 80px;
     color: white;
@@ -32,4 +43,15 @@ html body {
 ::placeholder{
     color: white;
     opacity: 1;
+}
+#submitone {
+    margin-left: 32%;
+    width: 35%;
+    height: 50px;
+    font-family: 'Jost', sans-serif;
+    color: white;
+    background: transparent;
+    border-radius: 25px;
+    border: 1px solid white;
+    cursor: pointer;
 }
