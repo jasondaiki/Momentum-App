@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Momentum App</title>
+        <link href="style.css" rel="stylesheet" type="text/css" />
+        <link rel="icon" href="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/92ec30eb-3510-4795-84cf-4311d5c1072e/da5itea-cd680738-f4bb-4732-95d4-c5193e5e639b.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzkyZWMzMGViLTM1MTAtNDc5NS04NGNmLTQzMTFkNWMxMDcyZVwvZGE1aXRlYS1jZDY4MDczOC1mNGJiLTQ3MzItOTVkNC1jNTE5M2U1ZTYzOWIucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.HqumMawB53oq45m2fQSLAhrYTq-TqUEy4MiB9RB1d94">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300&display=swap" rel="stylesheet">
+    </head>
+    <body onload="realtimeClock()">
+     <div id="wholepage">
+        <div id="centertext">
+            <div id="clock"></div>
+            <h2>ソードアート・オンライン</h2>
+            <h1 id="maintext">Welcome to ONLINE ART SWORD</h1>
+            <form id="form">
+             <input id="inputtext" type="text" placeholder="ENTER YOUR NAME" autofocus required><br><br>
+             <button id="submitone">SUBMIT</button>
+            </form>
+            <div id="qoutebox">
+               <h5 id="qoutes">“Whether here or in the real world, you can cry when it hurts. There’s no rule that you can’t show feelings just because it’s a game.” -Kirito</h5>
+            </div>
+        </div>
+        <div id="todobox">
+            <h5>My Day</h5>
+            <span id="day"></span>
+            <input id="todoinput" type="text" placeholder="New Task" autofocus><span id="addtask" style="cursor: pointer;">+</span>
+            <br>
+              <div id="task">
+              </div>
+        </div>
+     </div>
+     
+     <script src="/script.js"></script>
+    </body>
+</html> 
