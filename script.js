@@ -8,7 +8,8 @@ const qoutes = document.getElementById("qoutebox");
 let form = document.getElementById("form");
 let input = document.getElementById("inputtext");
 let message = document.getElementById("maintext");
-let data = "";
+const dataStorage = localStorage.getItem("name") ? JSON.parse(localStorage.getItem("name")) : [];
+console.log(dataStorage)
 
 
 
@@ -60,23 +61,31 @@ form.addEventListener("submit", (e) => {
   });
 
 submit.addEventListener("click", () =>{
-    data = input.value;
+    dataStorage.push(input.value)
+    localStorage.setItem("name", JSON.stringify(dataStorage))
+    location.reload()
+    
+})
+
+function displayName(){
+    let data = dataStorage[0];
     let rtClock = new Date();
     let hours = rtClock.getHours();
-    let greetings = ( hours > 12 ) ? "Good Afternoon" : ( hours > 18 ) ? "Good Evening" : "Good Morning";
+    let greetings = ( hours <= 12 ) ? "Good Afternoon" : ( hours > 18 ) ? "Good Evening" : "Good Morning";
     message.innerHTML = greetings + "," + " " + data + "!";
     form.style.display = 'none';
     document.getElementById("clock").style.visibility = 'visible';
-    qoutes.style.visibility = 'visible';
-    
-})
+    qoutes.style.visibility = 'visible';  
+}
+displayName()
+
 
 function realtimeClock(){
    let rtClock = new Date();
    let hours = rtClock.getHours();
    let minutes = rtClock.getMinutes();
    let seconds = rtClock.getSeconds();
-   let amPM = ( hours > 12) ? "PM" : "AM";
+   let amPM = ( hours >= 12) ? "PM" : "AM";
    hours = (hours > 12) ? hours - 12 : hours;
    hours = ("0" + hours).slice(-2);
    minutes = ("0" + minutes).slice(-2);
@@ -122,7 +131,7 @@ function toDoApp(){
     let taskInput = document.getElementById("todoinput")
     const addTask = document.getElementById("addtask");
     const itemsArray = localStorage.getItem("items") ? JSON.parse(localStorage.getItem("items")) : [];
-    const deleteBtn = document.getElementById("deleteBtn");
+    
 
     
     
@@ -135,15 +144,25 @@ function toDoApp(){
     function displayTask(){
         let items = "";
         for(let i = 0 ; i < itemsArray.length; i++){
-            items += `  <div id="newtask">
-                          <input type="checkbox" name="newtask">
-                          <label for="newtask">${itemsArray[i]}</label>
-                          <img class="edit" id="edit" src="/img/edit-xxl.png">
-                          <img class="delete" id="deleteBtn" src="/img/delete-xxl.png">
-                        </div>`
+            items += `<div id="newtask">
+                        <div class="input-controller">
+                         <input type="checkbox" name="newtask">
+                         <textarea disabled>${itemsArray[i]}</textarea>
+                       </div>
+                         <img class="edit" id="edit" src="/img/edit-xxl.png">
+                         <img class="delete" id="deleteBtn" src="/img/delete-xxl.png">
+
+                       <div class="update-controller">
+                        <button class="saveBtn">SAVE</button>
+                        <button class="cancelBtn">CANCEL</button>
+                       </div>
+                      </div>`
         }
         newTask.innerHTML = items;
         activateDeleteListeners()
+        activateEditListeners()
+        activateSaveListeners()
+        activateCancelListeners()
    }
 
    function activateDeleteListeners(){
@@ -153,8 +172,49 @@ function toDoApp(){
     })
   }
 
+  function activateEditListeners(){
+    const editBtn = document.querySelectorAll(".edit")
+    const updateController = document.querySelectorAll(".update-controller")
+    const inputs = document.querySelectorAll(".input-controller textarea")
+    editBtn.forEach((eB, i) => {
+      eB.addEventListener("click", () => { 
+        updateController[i].style.display = "block"
+        inputs[i].disabled = false })
+    })
+  }
+
+  function activateCancelListeners(){
+    const cancelBtn = document.querySelectorAll(".cancelBtn")
+    const updateController = document.querySelectorAll(".update-controller")
+    const inputs = document.querySelectorAll(".input-controller textarea")
+    cancelBtn.forEach((cB, i) => {
+      cB.addEventListener("click", () => {
+        updateController[i].style.display = "none"
+        inputs[i].disabled = true
+        inputs[i].style.border = "none"
+      })
+    })
+  }
+  
+
+  function activateSaveListeners(){
+    const saveBtn = document.querySelectorAll(".saveBtn")
+    const inputs = document.querySelectorAll(".input-controller textarea")
+    saveBtn.forEach((sB, i) => {
+      sB.addEventListener("click", () => {
+        updateItem(inputs[i].value, i)
+      })
+    })
+  }
+
   function deleteItem(i){
     itemsArray.splice(i,1)
+    localStorage.setItem('items', JSON.stringify(itemsArray))
+    location.reload()
+  }
+
+  function updateItem(text, i){
+    itemsArray[i] = text
     localStorage.setItem('items', JSON.stringify(itemsArray))
     location.reload()
   }
