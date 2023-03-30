@@ -2,12 +2,15 @@ let i = 0;
 let placeholder = "";
 const txt = "ENTER YOUR NAME"
 const speed = 200;
+let rtClock = new Date();
+let hours = rtClock.getHours();
 const inputText = document.getElementById("inputtext");
 const submit = document.getElementById("submitone");
 const qoutes = document.getElementById("qoutebox");
 let form = document.getElementById("form");
 let input = document.getElementById("inputtext");
 let message = document.getElementById("maintext");
+let message2 = document.getElementById("maintext2");
 const dataStorage = localStorage.getItem("name") ? JSON.parse(localStorage.getItem("name")) : [];
 console.log(dataStorage)
 
@@ -60,7 +63,7 @@ form.addEventListener("submit", (e) => {
     e.preventDefault();
   });
 
-submit.addEventListener("click", () =>{
+  submit.addEventListener("click", () =>{
     dataStorage.push(input.value)
     localStorage.setItem("name", JSON.stringify(dataStorage))
     location.reload()
@@ -71,13 +74,31 @@ function displayName(){
     let data = dataStorage[0];
     let rtClock = new Date();
     let hours = rtClock.getHours();
-    let greetings = ( hours <= 12 ) ? "Good Afternoon" : ( hours > 18 ) ? "Good Evening" : "Good Morning";
-    message.innerHTML = greetings + "," + " " + data + "!";
+    let greetings = ( hours >= 12 & hours < 17 ) ? "Good Afternoon" : ( hours >= 18 ) ? "Good Evening" : "Good Morning";
+    message2.innerHTML = greetings + "," + " " + data + "!";
     form.style.display = 'none';
     document.getElementById("clock").style.visibility = 'visible';
-    qoutes.style.visibility = 'visible';  
+    qoutes.style.visibility = 'visible';
+    message2.style.visibility = 'visible';
+    message.style.display = 'none';
+    console.log(hours)
 }
 displayName()
+
+function backBtn(){
+  const backBtn = document.getElementById("backBtn");
+  const clock2 = document.getElementById("clock2")
+  backBtn.addEventListener("click", () =>{
+    dataStorage.splice[0]
+    message.style.display = 'block'
+    document.getElementById("clock").style.visibility = 'hidden';
+    message2.style.display = 'none';
+    qoutes.style.visibility = 'hidden';
+    form.style.display = 'block';
+    clock2.style.display = 'none';
+  })
+}
+backBtn ()
 
 
 function realtimeClock(){
@@ -86,14 +107,43 @@ function realtimeClock(){
    let minutes = rtClock.getMinutes();
    let seconds = rtClock.getSeconds();
    let amPM = ( hours >= 12) ? "PM" : "AM";
-   hours = (hours > 12) ? hours - 12 : hours;
+   const clock = document.getElementById("clock")
+   const clock2 = document.getElementById("clock2")
    hours = ("0" + hours).slice(-2);
    minutes = ("0" + minutes).slice(-2);
    seconds = ("0" + seconds ).slice(-2);
    document.getElementById("clock").innerHTML = 
    hours + ":" + minutes + ":" + seconds + " " + amPM;
    let t = setTimeout(realtimeClock, 500);
+   clock.addEventListener("click", () =>{
+    clock.style.display = 'none';
+    clock2.style.display = 'block';
+   })
 }
+
+function realtimeClock2(){
+  let rtClock = new Date();
+  let hours = rtClock.getHours();
+  let minutes = rtClock.getMinutes();
+  let seconds = rtClock.getSeconds();
+  let amPM = ( hours >= 12) ? "PM" : "AM";
+  const clock = document.getElementById("clock")
+  const clock2 = document.getElementById("clock2")
+  hours = (hours > 12) ? hours - 12 : hours;
+  hours = ("0" + hours).slice(-2);
+  minutes = ("0" + minutes).slice(-2);
+  seconds = ("0" + seconds ).slice(-2);
+  document.getElementById("clock2").innerHTML = 
+  hours + ":" + minutes + ":" + seconds + " " + amPM;
+  let t = setTimeout(realtimeClock2, 500);
+  clock2.addEventListener("click", () =>{
+    clock.style.display = 'block';
+    clock2.style.display = 'none';
+  })
+}
+
+realtimeClock();
+
 
 function realDate(){
     let date = new Date();
@@ -124,7 +174,32 @@ function realDate(){
     displayDate.innerHTML = daysString + " " + monthsString + " " + daysNum + "," + " " + year;
 }
 realDate();
-realtimeClock();
+
+
+function showTodo(){
+  const todoBtn = document.getElementById("toDo");
+  const todoBtn2 = document.getElementById("toDo2");
+  const todoBox = document.getElementById("todobox");
+  todoBtn.addEventListener("click", () =>{
+    todoBox.style.display = "block";
+    todoBtn.style.display = "none";
+    todoBtn2.style.display = "block"
+  })
+}
+
+function hideTodo(){
+  const todoBtn = document.getElementById("toDo");
+  const todoBtn2 = document.getElementById("toDo2");
+  const todoBox = document.getElementById("todobox");
+  todoBtn2.addEventListener("click", () =>{
+    todoBox.style.display = "none";
+    todoBtn.style.display = "block";
+    todoBtn2.style.display = "none"
+  })
+}
+
+showTodo();
+hideTodo();
 
 function toDoApp(){
     let newTask = document.getElementById("task");
@@ -146,8 +221,8 @@ function toDoApp(){
         for(let i = 0 ; i < itemsArray.length; i++){
             items += `<div id="newtask">
                         <div class="input-controller">
-                         <input type="checkbox" name="newtask">
-                         <textarea disabled>${itemsArray[i]}</textarea>
+                         <input type="checkbox" name="newtask" class="checkbox">
+                         <textarea disabled for="newtask" class="text">${itemsArray[i]}</textarea>
                        </div>
                          <img class="edit" id="edit" src="/img/edit-xxl.png">
                          <img class="delete" id="deleteBtn" src="/img/delete-xxl.png">
@@ -163,6 +238,7 @@ function toDoApp(){
         activateEditListeners()
         activateSaveListeners()
         activateCancelListeners()
+        activateCheckboxListeners()
    }
 
    function activateDeleteListeners(){
@@ -180,6 +256,15 @@ function toDoApp(){
       eB.addEventListener("click", () => { 
         updateController[i].style.display = "block"
         inputs[i].disabled = false })
+    })
+  }
+
+  function activateCheckboxListeners(){
+    const checkBtn = document.querySelectorAll("checkbox")
+    const inputs = document.querySelectorAll(".text")
+    checkBtn.forEach((cB, i) => {
+      cB.addEventListener("checked", () => { 
+        inputs[i].style.textDecoration = "line-through" })
     })
   }
 
